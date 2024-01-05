@@ -1,0 +1,56 @@
+int op;
+            void *get = NULL;
+            printf("1 - CONSULTAR POR NOME\n2 - CONSULTAR POR QUANTIDADE DE HABITANTES\n3 - CONSULTAR POR PIB\nEscolha sua opcao: ");
+            scanf("%d", &op);
+
+            if(op == 1){
+                char nome[50];
+                fflush(stdin);
+                printf("Digite o nome da cidade que deseja consultar: ");
+                fgets(nome, sizeof(nome), stdin);
+                fflush(stdin);
+                nome[strcspn(nome, "\n")] = '\0';  // Remover caractere de nova linha
+                void *get = dllGetSpec(list, nome, cmp1);
+            }
+            else if(op==2){
+                int *qtd = (int*)malloc(sizeof(int));  // Alocar memória
+                printf("Digite a quantidade de habitantes da cidade que deseja consultar: ");
+                scanf("%d", qtd);
+                void *get = dllGetSpec(list, qtd, cmp2);
+            }
+            else if(op==3){
+                float *pib = (float*)malloc(sizeof(float));  // Alocar memória
+                printf("Digite o PIB da cidade que deseja consultar: ");
+                scanf("%f", pib);
+                void *get = dllGetSpec(list, pib, cmp3);
+            }
+
+
+
+            int cmp2(void *a, void *b) {
+    Cidade *cidade = (Cidade*)b;
+    int *x = (int *)a;
+    int i = *x;
+    int y = cidade->qtd_habitantes;
+
+    if(i == y){
+        return TRUE;
+    }
+    else{
+        return FALSE;
+    }
+}
+
+int cmp3(void *a, void *b) {
+    Cidade *cidade = (Cidade*)b;
+    float *x = (float *)a;
+    float i = *x;
+    float y = cidade->pibPerCapita;
+
+    if(i == y){
+        return TRUE;
+    }
+    else{
+        return FALSE;
+    }
+}
